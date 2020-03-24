@@ -1,13 +1,20 @@
 $Password = ConvertTo-SecureString "dummyPW_:-gch6Rejae9" -AsPlainText -Force
 New-LocalUser -Name "ddagentuser" -Description "Test user for the secrets feature on windows." -Password $Password
 
-& ridk enable
-& pip install -r requirements.txt
+& Write-Host $Env:PATH
+& Write-Host $Env:GOPATH
 
 $Env:Python2_ROOT_DIR=$Env:TEST_EMBEDDED_PY2
 $Env:Python3_ROOT_DIR=$Env:TEST_EMBEDDED_PY3
 $Env:BUILD_ROOT=(Get-Location).Path
-$Env:PATH="$Env:BUILD_ROOT\dev\lib;$Env:Python2_ROOT_DIR;$Env:Python2_ROOT_DIR\Scripts;$Env:Python3_ROOT_DIR;$Env:Python3_ROOT_DIR\Scripts;$Env:PATH"
+$Env:GOPATH="C:\dev\go"
+$Env:PATH="$Env:BUILD_ROOT\dev\lib;$Env:GOPATH\bin;$Env:Python2_ROOT_DIR;$Env:Python2_ROOT_DIR\Scripts;$Env:Python3_ROOT_DIR;$Env:Python3_ROOT_DIR\Scripts;$Env:PATH"
+
+& Write-Host $Env:PATH
+& Write-Host $Env:GOPATH
+
+& ridk enable
+& pip install -r requirements.txt
 
 & git clone --depth 1 https://github.com/datadog/integrations-core
 & $Env:Python2_ROOT_DIR\python.exe -m pip install PyYAML==5.3
@@ -46,6 +53,9 @@ if($err -ne 0){
 # }
 
 & Get-Content -Path .\rtloader\build\test\CMakeFiles\run.dir\build.make
+& Get-Location
+& Write-Host $ENV:GOPATH
+& Write-Host $ENV:GO111MODULE
 & inv -e rtloader.test
 $err = $LASTEXITCODE
 Write-Host rtloader test result is $err
