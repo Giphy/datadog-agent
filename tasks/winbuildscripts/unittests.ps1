@@ -45,6 +45,7 @@ if($err -ne 0){
 #   [Environment]::Exit($err)
 # }
 
+& Get-Content -Path .\rtloader\build\test\CMakeFiles\run.dir\build.make
 & inv -e rtloader.test
 $err = $LASTEXITCODE
 Write-Host rtloader test result is $err
