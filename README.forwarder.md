@@ -29,7 +29,7 @@ This repo just follows the upstream DataDog/datadog-agent repo with some added
 files to ease building a standalone forwarder, the code can be updated with git:
 
     $ git fetch upstream master
-    $ git merge --ff-only upstream/master
+    $ git merge upstream/master
     $ git push origin
 
 The `upstream` is configured with git:
